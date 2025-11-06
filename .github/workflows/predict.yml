@@ -1,5 +1,9 @@
 name: weekly-forecast
 
+# ← 重要：gh-pages への書き込み権限を明示
+permissions:
+  contents: write
+
 on:
   schedule:
     # 毎週 月曜 12:00 JST（= 03:00 UTC）
@@ -9,6 +13,7 @@ on:
 jobs:
   predict:
     runs-on: ubuntu-latest
+
     steps:
       - name: チェックアウト
         uses: actions/checkout@v4
@@ -18,17 +23,21 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: 依存パッケージをインストール（pandas / numpy）
+      - name: pandas / numpy をインストール
         run: |
           python -m pip install --upgrade pip
-          pip install pandas numpy
+          pip install -q pandas numpy
 
-      - name: 予測スクリプトを実行して /reports を生成
+      - name: 予測スクリプトを実行（/reports を生成）
         run: |
           python predict.py
+          ls -la reports
 
-      - name: GitHub Pages へ公開（reports配下）
+      - name: GitHub Pagesへ公開（reports配下）
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./reports
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          # enable_jekyll: false  # 必要ならコメント解除
