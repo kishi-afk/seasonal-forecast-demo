@@ -1,0 +1,2 @@
+run_id,period,orders_forecast,orders_low,orders_high,top_drivers,updated_at,source_url
+2025-11-06T03:04:54.685997+00:00,2025-W52,1117,949,1285,"['前年同週（あれば）', '直近4週平均']",2025-11-06T03:04:54.685997+00:00,
